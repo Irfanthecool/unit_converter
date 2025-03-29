@@ -205,10 +205,16 @@ def main():
     with col3:
         to_unit = st.selectbox("To", units, key='to_unit')
         try:
-            result = conversion_function(value, from_unit, to_unit)
+            if from_unit not in units or to_unit not in units:
+                st.error("Invalid unit selected. Please choose valid units.")
+            else:
+                result = conversion_function(value, from_unit, to_unit)
+
+
             st.metric("Result", f"{result:.6g}", delta=None)
-        except:
-            st.error("Conversion not possible")
+        except Exception as e:
+            st.error(f"Conversion not possible: {e}")
+
     
     # Add some space and attribution
     st.markdown("---")
